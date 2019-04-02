@@ -19,7 +19,7 @@ public class DAOUtilitaire {
 	private static final String UPDATE = "UPDATE";
 	private static final String DELETE = "DELETE";
 	private static final String WHERE = " WHERE ";
-	private static final String WHERE_ID = " WHERE id";
+	private static final String WHERE_ID = " WHERE Code_commune_INSEE";
 	private static final String AND = " AND ";
 	private static final String AND_ID = " AND id";
 	private static final String ID = ".id";
@@ -69,6 +69,22 @@ public class DAOUtilitaire {
 		fermeture(connection);
 	}
 	
+	protected static String initialisationRequetePreparee2(String choixCRUD,
+			String nomEntite, String[][] attributs) {
+		// création de la requête préparée
+		List<String> valeursAttributs = creationRequete(choixCRUD, nomEntite, attributs);
+		String sql = valeursAttributs.remove(0);
+		// changement de la structure de la requête si le choix de la méthode CRUD est "UPDATE"
+		sql = caseUpdate1Id(sql, choixCRUD, nomEntite)+" ";
+		// remplacement des "?" par les valeurs des attributs
+		String[] listeSQL = sql.split("\\?");
+		StringBuilder newSQL = new StringBuilder(listeSQL[0]);
+		for(int i = 0; i<valeursAttributs.size(); i++) {
+			newSQL.append("\"" + valeursAttributs.get(i) + "\"" + listeSQL[i+1]);
+		}
+		return newSQL.toString() + valeursAttributs.get(valeursAttributs.size() - 1);
+	}
+	
 	protected static String initialisationRequetePreparee(String choixCRUD,
 			String nomEntite, String[][] attributs) {
 		// création de la requête préparée
@@ -87,6 +103,8 @@ public class DAOUtilitaire {
 	
 	protected static String initialisationRequetePreparee(String sql, Object... objets) {
 		String[] listeSQL = (sql+" ").split("\\?");
+		System.out.println("sql : " + sql);
+		System.out.println(" objets : " + objets.length);
 		StringBuilder newSQL = new StringBuilder(listeSQL[0]);
 		for(int i = 0; i<objets.length; i++) {
 			newSQL.append("\"" + objets[i] + "\"" + listeSQL[i+1]);
@@ -128,7 +146,7 @@ public class DAOUtilitaire {
 			// création d'une connexion grâce à la DAOFactory placée en attribut de la classe
 			connection = daoFactory.getConnection();
 			// mise en forme de la requête UPDATE en fonction des attributs de l'objet
-			String sql = initialisationRequetePreparee(UPDATE, nomEntite, attributs);
+			String sql = initialisationRequetePreparee2(UPDATE, nomEntite, attributs);
 			preparedStatement = connection.prepareStatement(sql, Statement.NO_GENERATED_KEYS);
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -160,7 +178,7 @@ public class DAOUtilitaire {
 			sql = sql.replace(AND_ID + nomEntite + " = ?", "");
 			sql = sql.replace(AND + nomEntite.toLowerCase() + ID +nomEntite + " = ?", "");
 			sql = sql.replace("AND", ", ");
-			sql += WHERE_ID + nomEntite + " = ?";
+			sql += WHERE_ID + " = ?";
 		}
 		return sql;
 	}

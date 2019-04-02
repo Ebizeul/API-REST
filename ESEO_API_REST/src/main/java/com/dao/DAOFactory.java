@@ -14,9 +14,9 @@ import java.util.Properties;
 
 public class DAOFactory {
 
-	public static final String FICHIER_PROPERTIES = "fr/eseo/ld/dao/dao.properties";
-	public static final String FICHIER_PROPERTIES_NOM = "dao.properties";
-	public static final String FICHIER_DEFAULT_PROPERTIES = "fr/eseo/ld/dao/daoDefault.properties";
+	public static final String FICHIER_PROPERTIES = "com/dao/bdd.properties";
+	public static final String FICHIER_PROPERTIES_NOM = "bdd.properties";
+	public static final String FICHIER_DEFAULT_PROPERTIES = "com/dao/bdd.properties";
 	private static final String FICHIER_PROPERTIES_INTROUVABLE = "Le fichier properties %s est introuvable.";
 	public static final String PROPERTY_URL = "URL";
 	public static final String PROPERTY_DRIVER = "DRIVER";
@@ -194,5 +194,10 @@ public class DAOFactory {
 			return false;
 		}
 		return true;
+	}
+	
+	
+	public VilleFranceDAO getVilleFranceDao() {
+		return new VilleFranceDAO(this);
 	}
 }

@@ -40,9 +40,11 @@ public class VilleFranceDAO extends DAO<VilleFranceBLO> {
 	
 	private static final String[] ATTRIBUTS_NOMS = { ATTRIBUT_CODE_COMMUNE, ATTRIBUT_NOM_COMMUNE, ATTRIBUT_CODE_POSTAL,
 			ATTRIBUT_LIBELLE_ACHEMINEMENT, ATTRIBUT_LIGNE_5, ATTRIBUT_LATITUDE, ATTRIBUT_LONGITUDE };
+	private static final String[] ATTRIBUTS_NOMS_2 = { ATTRIBUT_NOM_COMMUNE, ATTRIBUT_CODE_POSTAL, ATTRIBUT_LIBELLE_ACHEMINEMENT,
+			ATTRIBUT_LIGNE_5, ATTRIBUT_LATITUDE, ATTRIBUT_LONGITUDE, ATTRIBUT_CODE_COMMUNE };
 	
 	private static final String SQL_INSERT = 
-			"INSERT INTO ville_france (Code_commune_INSEE, Nom_commune, Code_postal, Libelle_acheminement, Ligne_5, Latitude, Longitude) VALUES (?, ?, ?, ?, ?, ?)";	
+			"INSERT INTO ville_france (Code_commune_INSEE, Nom_commune, Code_postal, Libelle_acheminement, Ligne_5, Latitude, Longitude) VALUES (?, ?, ?, ?, ?, ?, ?)";	
 	private static final String SQL_SELECT_VILLES = 
 			"SELECT Code_commune_INSEE, Nom_commune, Code_postal, Libelle_acheminement, Ligne_5, Latitude, Longitude FROM ville_france ORDER BY Code_commune_INSEE";
 	private static final String DELETE = "DELETE";
@@ -126,10 +128,10 @@ public class VilleFranceDAO extends DAO<VilleFranceBLO> {
 	public void modifier(VilleFranceBLO ville) {
 		// tableau de Strings regroupant tous les noms des attributs d'un objet ainsi que les valeurs correspondantes
 		// /!\ bien placer la clé primaire et sa valeur à la FIN du tableau sinon erreur
-		String[][] attributs = { ATTRIBUTS_NOMS,
-				{ ville.getCodeCommune(), ville.getNomCommune(), ville.getCodePostal(),
+		String[][] attributs = { ATTRIBUTS_NOMS_2,
+				{ ville.getNomCommune(), ville.getCodePostal(),
 				  ville.getLibelleAcheminement(), ville.getLigne5(), ville.getLatitude(),
-				  String.valueOf(ville.getLongitude()) } };
+				  ville.getLongitude(), ville.getCodeCommune()} };
 		/* Traite la mise à jour de la BDD */
 		traitementUpdate(this.getDaoFactory(), NOM_ENTITE, attributs, logger);
 	}
