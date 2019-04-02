@@ -11,16 +11,72 @@ import java.util.Date;
  * @author Lilian BRAUD
  */
 public class VilleFranceBLO {
-	
-	public static final String SEMESTRE_GL = "S8";
-	public static final String SEMESTRE_PFE = "S9";
 
-	private Long idSemestre;
-	private Date dateDebut;	
-	private Date dateFin;
-	private String nom;
+	private String codeCommune;
+	private String nomCommune;
+	private String codePostal;
+	private String libelleAcheminement;
+	private String ligne5;	
+	private String latitude;
 	
-	private static final String FORMAT_DATE = "yyy-MM-dd";
+	
+	public String getCodeCommune() {
+		return codeCommune;
+	}
+
+	public void setCodeCommune(String codeCommune) {
+		this.codeCommune = codeCommune;
+	}
+
+	public String getNomCommune() {
+		return nomCommune;
+	}
+
+	public void setNomCommune(String nomCommune) {
+		this.nomCommune = nomCommune;
+	}
+
+	public String getCodePostal() {
+		return codePostal;
+	}
+
+	public void setCodePostal(String codePostal) {
+		this.codePostal = codePostal;
+	}
+
+	public String getLibelleAcheminement() {
+		return libelleAcheminement;
+	}
+
+	public void setLibelleAcheminement(String libelleAcheminement) {
+		this.libelleAcheminement = libelleAcheminement;
+	}
+
+	public String getLigne5() {
+		return ligne5;
+	}
+
+	public void setLigne5(String ligne5) {
+		this.ligne5 = ligne5;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	private String longitude;
 	
 	/**
 	 * Constructeur par dÃ©faut.
@@ -29,62 +85,18 @@ public class VilleFranceBLO {
 		super();
 	}
 	
-	public Long getIdSemestre() {
-		return idSemestre;
-	}
-	
-	public void setIdSemestre(Long idSemestre) {
-		this.idSemestre = idSemestre;
-	}
-	
-	public Date getDateDebut() {
-		return dateDebut;
-	}
-
-	public String getDateDebutString() {
-		String dateDebutString = null;
-		if(dateDebut != null) {
-			SimpleDateFormat formatDate = new SimpleDateFormat(FORMAT_DATE);
-			dateDebutString = formatDate.format(dateDebut);
-		}
-		return dateDebutString;
-	}
-	
-	public void setDateDebut(Date dateDebut) {
-		this.dateDebut = dateDebut;
-	}
-
-	public Date getDateFin() {
-		return dateFin;
-	}
-	
-	public String getDateFinString() {
-		String dateFinString = null;
-		if(dateFin != null) {
-			SimpleDateFormat formatDate = new SimpleDateFormat(FORMAT_DATE);
-			dateFinString = formatDate.format(dateFin);
-		}
-		return dateFinString;
-	}
-
-	public void setDateFin(Date dateFin) {
-		this.dateFin = dateFin;
-	}
-	
-	public String getNom() {
-		return nom;
-	}
-	
-	public void setNom(String nom) {
-		this.nom = nom;
-	}	
-	
 	/**
 	 * RedÃ©finition de la mÃ©thode toString().
 	 */
 	@Override
 	public String toString() {
-		return "Semestre [idSemestre=" + this.idSemestre + ", dateDebut=" + this.dateDebut + ", dateFin=" + this.dateFin 
-				+ ", nom=" + this.nom + "]";
+		return "Ville [codeCommune=" + this.codeCommune 
+				+ ", nomCommune=" + this.nomCommune 
+				+ ", codePostal=" + this.codePostal 
+				+ ", libelleAcheminement=" + this.libelleAcheminement 
+				+ ", ligne5=" + this.ligne5 
+				+ ", latitude=" + this.latitude 
+				+ ", longitude=" + this.longitude 
+				+ "]";
 	}
 }
