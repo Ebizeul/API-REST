@@ -24,8 +24,19 @@ public class TestController {
 	@ResponseBody
 	public String[] get(@RequestParam(required = false, value = "value") String value
 			, @RequestParam(required = false, value = "filtre") String filtre) {
+		
+//		ObjectMapper objectMapper = new ObjectMapper();
+//		String affichageVille = null;
+//		
+//		try {
+//			affichageVille = objectMapper.writeValueAsString(villes);
+//		} catch(JsonProcessingException e) {
+//			e.printStackTrace();
+//		}
+		
 		List<VilleFranceBLO> villes = this.villeFranceDAO.lister();
 		String[] villesFrance = new String[villes.size()];
+		
 		if(value.equals("villesFrance")) {
 			if(filtre != null) {
 				if(filtre.equals("nom")) {
