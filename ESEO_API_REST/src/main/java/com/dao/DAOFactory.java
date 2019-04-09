@@ -11,6 +11,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 
 public class DAOFactory {
 
@@ -27,6 +30,8 @@ public class DAOFactory {
 	private String nomUtilisateur;
 	private String motDePasse;
 	private String driver;
+	
+	private static Logger log = Logger.getLogger(DAOFactory.class.getName());
 	
 	/**
 	 * Constructeur de la Factory permettant une simple connexion à la base de données.
@@ -171,7 +176,8 @@ public class DAOFactory {
 		try { 
 			Class.forName(this.driver); 
 			DriverManager.getConnection(url, nomUtilisateur, motDePasse); 
-		} catch (ClassNotFoundException | SQLException e) { 
+		} catch (ClassNotFoundException | SQLException e) {
+			log.log(Level.ERROR, "Une erreur est survenu lors du test", e);
 			return false;
 		}
 		return true;
@@ -191,6 +197,7 @@ public class DAOFactory {
 			Class.forName(driver); 
 			DriverManager.getConnection(url, nomUtilisateur, motDePasse); 
 		} catch (ClassNotFoundException | SQLException e) { 
+			log.log(Level.ERROR, "Une erreur est survenu lors du test", e);
 			return false;
 		}
 		return true;

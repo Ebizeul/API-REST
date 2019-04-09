@@ -65,7 +65,7 @@ public class VilleFranceDAO extends DAO<VilleFranceBLO> {
 				+ ", " + rset.getString(7));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.log(Level.WARN, "Échec", e);
 		}
 	}
 	
