@@ -40,8 +40,8 @@ public class TestController {
 			}
 			
 			if(filtre != null) {
-				List<String> nomsCommunes = new ArrayList();
-				List<String> codesCommunes = new ArrayList();
+				List<String> nomsCommunes = new ArrayList<String>();
+				List<String> codesCommunes = new ArrayList<String>();
 				
 				if(filtre.equals("nom")) {
 					for(int i=0 ; i<villes.size() ; i++) {
