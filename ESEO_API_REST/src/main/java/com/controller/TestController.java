@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blo.VilleFranceBLO;
 import com.dao.DAOFactory;
 import com.dao.VilleFranceDAO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @RestController
@@ -22,66 +25,52 @@ public class TestController {
 	
 	@RequestMapping(value="/test", method=RequestMethod.GET)
 	@ResponseBody
-	public String[] get(@RequestParam(required = false, value = "value") String value
+	public String get(@RequestParam(required = false, value = "value") String value
 			, @RequestParam(required = false, value = "filtre") String filtre) {
 		
-//		ObjectMapper objectMapper = new ObjectMapper();
-//		String affichageVille = null;
-//		
-//		try {
-//			affichageVille = objectMapper.writeValueAsString(villes);
-//		} catch(JsonProcessingException e) {
-//			e.printStackTrace();
-//		}
-		
 		List<VilleFranceBLO> villes = this.villeFranceDAO.lister();
-		String[] villesFrance = new String[villes.size()];
+		ObjectMapper objectMapper = new ObjectMapper();
+		String affichageVille = null;
 		
 		if(value.equals("villesFrance")) {
+			try {
+				affichageVille = objectMapper.writeValueAsString(villes);
+			} catch(JsonProcessingException e) {
+				e.printStackTrace();
+			}
+			
 			if(filtre != null) {
+				List<String> nomsCommunes = new ArrayList();
+				List<String> codesCommunes = new ArrayList();
+				
 				if(filtre.equals("nom")) {
 					for(int i=0 ; i<villes.size() ; i++) {
-						villesFrance[i] = "          " +
-						" Nom_commune : " + villes.get(i).getNomCommune() +
-						"          ";
+						nomsCommunes.add("Nom commune : " + villes.get(i).getNomCommune());
 					}
 				} else if(filtre.equals("codeCo")) {
-					for(int i=0 ; i<villes.size() ; i++) {
-						villesFrance[i] = "          " +
-						"Code_commune_INSEE : " + villes.get(i).getCodeCommune() +
-						"          ";
-					}
-				} else {
-					for(int i=0 ; i<villes.size() ; i++) {
-						villesFrance[i] = "          " +
-						"Code_commune_INSEE : " + villes.get(i).getCodeCommune() +
-						" Nom_commune : " + villes.get(i).getNomCommune() +
-						" Code_postal : " + villes.get(i).getCodePostal() +
-						" Libelle_acheminement : " + villes.get(i).getLibelleAcheminement() +
-						" Ligne_5 : " + villes.get(i).getLigne5() +
-						" Latitude : " + villes.get(i).getLongitude() + 
-						" Longitude : " + villes.get(i).getLatitude() +
-						"          ";
+					for(int i=0 ; i<villes.size() ; i++) { 
+						codesCommunes.add("Code commune : " + villes.get(i).getCodeCommune());
 					}
 				} 
-			} else {
-			 
-				for(int i=0 ; i<villes.size() ; i++) {
-					villesFrance[i] = "          " +
-					"Code_commune_INSEE : " + villes.get(i).getCodeCommune() +
-					" Nom_commune : " + villes.get(i).getNomCommune() +
-					" Code_postal : " + villes.get(i).getCodePostal() +
-					" Libelle_acheminement : " + villes.get(i).getLibelleAcheminement() +
-					" Ligne_5 : " + villes.get(i).getLigne5() +
-					" Latitude : " + villes.get(i).getLongitude() + 
-					" Longitude : " + villes.get(i).getLatitude() +
-					"          ";
+				
+				if(nomsCommunes.size() > 0) {
+					try {
+						affichageVille = objectMapper.writeValueAsString(nomsCommunes);
+					} catch(JsonProcessingException e) {
+						e.printStackTrace();
+					}
+				} else if(codesCommunes.size() > 0) {
+					try {
+						affichageVille = objectMapper.writeValueAsString(codesCommunes);
+					} catch(JsonProcessingException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 			
 		}
 		
-		return villesFrance;
+		return affichageVille;
 	}
 	
 	@RequestMapping(value="/test", method=RequestMethod.POST)
